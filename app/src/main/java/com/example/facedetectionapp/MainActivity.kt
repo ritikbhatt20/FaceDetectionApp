@@ -56,11 +56,25 @@ class MainActivity : AppCompatActivity() {
         val result = detector.process(image)
             .addOnSuccessListener { faces ->
                 // Task completed successfully, our face is successfully detected
-
+                var resultText = " "
+                var i = 1
+                for(face in faces){
+                    resultText = "Face Number $i" +
+                                 "\nSmile : ${face.smilingProbability?.times(100)}%"+
+                                 "\nLeftEye Open : ${face.leftEyeOpenProbability?.times(100)}"+
+                                 "\nRightEye Open : ${face.rightEyeOpenProbability?.times(100)}"
+                    i++
+                }
+                if(faces.isEmpty()){
+                    Toast.makeText(this, "NO FACE DETECTED", Toast.LENGTH_SHORT).show()
+                }
+                else{
+                    Toast.makeText(this, resultText, Toast.LENGTH_SHORT).show()
+                }
             }
             .addOnFailureListener { e ->
                 // Task failed with an exception
-
+                Toast.makeText(this, "SOMETHING WENT WRONG", Toast.LENGTH_SHORT).show()
             }
 
     }
